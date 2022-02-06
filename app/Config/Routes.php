@@ -17,7 +17,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Api\Contact');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -31,7 +31,16 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+
+
+// default settings
+// $routes->get('/', 'Api\Contact::index');
+
+
+// modified rest api 
+$routes->resource("Api\Contact");
+$routes->get("/rest-api/all", "Api\Contact::index");
+$routes->get("/rest-api/getUser/(:num)", "Api\Contact::getUser/$1");
 
 /*
  * --------------------------------------------------------------------
