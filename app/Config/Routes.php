@@ -17,7 +17,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Api\Contact');
+$routes->setDefaultController('Api');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -36,11 +36,14 @@ $routes->setAutoRoute(true);
 // default settings
 // $routes->get('/', 'Api\Contact::index');
 
-
 // modified rest api 
-$routes->resource("Api\Contact");
-$routes->get("/rest-api/all", "Api\Contact::index");
-$routes->get("/rest-api/getUser/(:num)", "Api\Contact::getUser/$1");
+
+$routes->resource("Api");
+$routes->get("/rest-api/all", "Api::index");
+$routes->get("/rest-api/find/(:num)", "Api::find/$1");
+$routes->post("/rest-api/create", "Api::create");
+
+
 
 /*
  * --------------------------------------------------------------------
