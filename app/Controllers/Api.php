@@ -89,8 +89,66 @@ class Api extends BaseController
             return  $this->respond($data);
         }
 
-        $data = $this->lib->success($this->request->getVar());
+        $data = [
+            "nama_user" => $this->request->getVar("nama_user"),
+            "email" => $this->request->getVar("email"),
+            "wa" => $this->request->getVar("wa"),
+            "password" => md5($this->request->getVar("password"))
+        ];
 
-        return $this->respond($data);
+        // inserting data 
+        $insert = $this->tb_user->insert($data, true);
+
+        if (is_numeric($insert)) {
+            return $this->respond($this->lib->success("Data Anda Berhasil Ditambahkan"));
+        }
+    }
+
+    // =============== UPDATE (PUT) ======
+    public function delete()
+    {
+        // $id = $this->request->getVar("id");
+
+        // validationa
+        if (!$this->validate([
+            "id" => [
+                "rules" => "required",
+                "errors" => [
+                    "required" => "Parameter tidak lengkap"
+                ]
+            ],
+            "nama_user" => [
+                "rules" => "required",
+                "errors" => [
+                    "required" => "Parameter tidak lengkap"
+                ]
+            ],
+            "email" => [
+                "rules" => "required",
+                "errors" => [
+                    "required" => "Parameter tidak lengkap"
+                ]
+            ],
+            "wa" => [
+                "rules" => "required",
+                "errors" => [
+                    "required" => "Parameter tidak lengkap"
+                ]
+            ]
+        ])) {
+
+            return $this->respond($this->lib->Error($this->validasi->getErrors()));
+        }
+
+        // update
+        $id = $this->request->getVar("id");
+        $data = [
+            "id" => $id,
+            "nama_user" => $this->request->getVar("nama_user"),
+            "email" => $this->request->getVar("email"),
+            "wa" => $this->request->getVar("wa")
+        ];
+
+        return $this->respond($this->lib->success($data));
     }
 }

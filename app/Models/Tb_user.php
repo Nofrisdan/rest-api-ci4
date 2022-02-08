@@ -9,7 +9,14 @@ class Tb_user extends Model
 {
 
     protected $table = "tb_user";
-    protected $allowedFields = ['nama_user', 'email', 'wa', 'password'];
+    protected $allowedFields = [
+        'nama_user',
+        'email',
+        'wa',
+        'password'
+    ];
+
+
     // protected $useTimestamps = true;
     public function getData($id = false)
     {
