@@ -21,6 +21,13 @@ class Api extends BaseController
         $this->tb_user = new Tb_user();
         $this->lib = new Respon();
         $this->validasi = service("validation");
+
+
+        // header access
+        Header('Access-Control-Allow-Origin: *'); //for allow any domain, insecure
+        Header('Access-Control-Allow-Headers: *'); //for allow any headers, insecure
+        Header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //method allowed
+
     }
 
 
