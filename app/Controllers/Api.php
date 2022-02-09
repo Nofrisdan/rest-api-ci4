@@ -2,10 +2,7 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
 use CodeIgniter\API\ResponseTrait;
-
-
 // db
 use App\Models\Tb_user;
 
@@ -165,17 +162,26 @@ class Api extends BaseController
         // $id = $this->request->getVar("id");
         $dataUpdate = $this->request->getRawInput();
         $id = $dataUpdate['id'];
-        $data = [
-            "nama_user" => $dataUpdate['nama_user'],
-            "email" => $dataUpdate['email'],
-            "wa" => $dataUpdate['wa']
-        ];
+
+        // cek apakah data dengan id tersebut sudah terdaftar
+        $data_exists = $this->tb_user->where("id_user", $id)->first();
+
+        if (!empty($data_exists)) {
+            $data = [
+                "nama_user" => $dataUpdate['nama_user'],
+                "email" => $dataUpdate['email'],
+                "wa" => $dataUpdate['wa']
+            ];
 
 
-        $update = $this->tb_user->where("id_user", $id)->set($data)->update();
-        if ($update) {
-            return $this->respond($this->lib->success("Data dengan id $id Berhasil Diubah"));
+            $update = $this->tb_user->where("id_user", $id)->set($data)->update();
+            if ($update) {
+                return $this->respond($this->lib->success("Data dengan id $id Berhasil Diubah"));
+            }
+        } else {
+            return $this->failNotFound("Data Tidak Tersedia");
         }
+
         // return $this->respond($this->lib->success($data));
     }
 }
