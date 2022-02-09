@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-
+use Exception;
 
 class Tb_user extends Model
 {
@@ -31,5 +31,16 @@ class Tb_user extends Model
     public function cek_id($id)
     {
         return $this->where("id_user", $id)->first();
+    }
+
+    public function cekEmail($email)
+    {
+        $data = $this->select("id_user")->where("email", $email)->first();
+
+        if (empty($data)) {
+            return false;
+        }
+
+        return $data['id_user'];
     }
 }

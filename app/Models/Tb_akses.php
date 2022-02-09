@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use Exception;
 
 class Tb_akses extends Model
 {
@@ -21,5 +22,16 @@ class Tb_akses extends Model
                 ->where("token", $token)
                 ->first();
         }
+    }
+
+
+    public function getIdUser($id)
+    {
+        $data = $this->where("id_user", $id)->first();
+
+        if (!$data) {
+            throw new Exception("Data Tidak Tersedia");
+        }
+        return $data;
     }
 }
