@@ -51,6 +51,7 @@ class Api extends BaseController
 
 
     // ============= CREATE ==================
+    // menggunakan body form-data 
     public function create()
     {
 
@@ -104,8 +105,26 @@ class Api extends BaseController
         }
     }
 
-    // =============== UPDATE (PUT) ======
-    public function delete()
+    // =============== delete(Delete) ======
+    public function delete($id)
+    {
+        $cek = $this->tb_user->cek_id($id);
+        if (!empty($cek)) {
+            $delete = $this->tb_user->where("id_user", $id)->delete();
+
+            if ($delete) {
+                return $this->respond($this->lib->success("Data Berhasil Dihapus"));
+            }
+        } else {
+            return $this->respond($this->lib->Error("Data Tidak Tersedia"));
+        }
+    }
+
+
+    // update data
+
+    // menggunakan body ww-x-urlencode
+    public function update()
     {
         // $id = $this->request->getVar("id");
 
@@ -137,11 +156,15 @@ class Api extends BaseController
             ]
         ])) {
 
-            return $this->respond($this->lib->Error($this->validasi->getErrors()));
+            // return $this->respond());
+            // $data = $this->lib->Error($this->validasi->getErrors());
+            return $this->fail($this->validasi->getErrors());
         }
 
         // update
-        $id = $this->request->getVar("id");
+        // $id = $this->request->getVar("id");
+        $dataUpdate = $this->request->getRawInput();
+        $id = $dataUpdate['id'];
         $data = [
             "id" => $id,
             "nama_user" => $this->request->getVar("nama_user"),

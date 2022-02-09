@@ -42,7 +42,8 @@ $routes->resource("Api");
 $routes->get("/rest-api/all", "Api::index");
 $routes->get("/rest-api/find/(:num)", "Api::find/$1");
 $routes->post("/rest-api/create", "Api::create");
-$routes->delete("/rest-api/delete", "Api::delete");
+$routes->delete("/rest-api/delete/(:num)", "Api::delete/$1");
+$routes->put("/rest-api/update", "Api::update");
 
 
 

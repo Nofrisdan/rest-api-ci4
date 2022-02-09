@@ -8,7 +8,6 @@ class Respon
 
 
     // success
-
     public function success($value)
     {
         $data = [

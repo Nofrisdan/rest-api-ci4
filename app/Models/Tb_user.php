@@ -27,4 +27,9 @@ class Tb_user extends Model
                 ->first();
         }
     }
+
+    public function cek_id($id)
+    {
+        return $this->where("id_user", $id)->first();
+    }
 }
