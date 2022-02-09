@@ -166,12 +166,16 @@ class Api extends BaseController
         $dataUpdate = $this->request->getRawInput();
         $id = $dataUpdate['id'];
         $data = [
-            "id" => $id,
-            "nama_user" => $this->request->getVar("nama_user"),
-            "email" => $this->request->getVar("email"),
-            "wa" => $this->request->getVar("wa")
+            "nama_user" => $dataUpdate['nama_user'],
+            "email" => $dataUpdate['email'],
+            "wa" => $dataUpdate['wa']
         ];
 
-        return $this->respond($this->lib->success($data));
+
+        $update = $this->tb_user->where("id_user", $id)->set($data)->update();
+        if ($update) {
+            return $this->respond($this->lib->success("Data dengan id $id Berhasil Diubah"));
+        }
+        // return $this->respond($this->lib->success($data));
     }
 }
