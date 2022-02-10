@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use CodeIgniter\API\ResponseTrait;
 // db
-use App\Models\Tb_user;
+// use App\Models\Tb_user;
+use App\Models\Tb_kontak;
 
 // library
 use App\Libraries\Respon;
@@ -12,10 +13,10 @@ use App\Libraries\Respon;
 class Api extends BaseController
 {
     use ResponseTrait;
-    protected $tb_user, $lib, $validasi;
+    protected $tb_kontak, $lib, $validasi;
     public function __construct()
     {
-        $this->tb_user = new Tb_user();
+        $this->tb_kontak = new Tb_kontak();
         $this->lib = new Respon();
         $this->validasi = service("validation");
 
@@ -31,14 +32,14 @@ class Api extends BaseController
     // ====================== GET DATA =================================
     public function index()
     {
-        $data = $this->lib->success($this->tb_user->findAll());
+        $data = $this->lib->success($this->tb_kontak->findAll());
 
         return $this->respond($data);
     }
 
     public function find($id)
     {
-        $data = $this->lib->success($this->tb_user->where("id_user", $id)->first());
+        $data = $this->lib->success($this->tb_kontak->where("id_kontak", $id)->first());
 
         return $this->respond($data);
     }
@@ -54,14 +55,14 @@ class Api extends BaseController
 
         // validation
         if (!$this->validate([
-            "nama_user" => [
+            "nama_kontak" => [
                 "rules" => "required",
                 "errors" => [
-                    "required" => "Harap Masukkan Parameter Nama User"
+                    "required" => "Harap Masukkan Parameter Nama kontak"
                 ]
             ],
             "email" => [
-                "rules" => "required|is_unique[tb_user.email]",
+                "rules" => "required|is_unique[base_kontak.email_kontak]",
                 "errors" => [
                     "required" => "Harap Masukkan Parameter email",
                     "is_unique" => "Alamat Email Yang anda masukkan sudah terdaftar"
@@ -74,12 +75,6 @@ class Api extends BaseController
                     "required" => "Harap Masukkan parameter wa"
                 ]
             ],
-            "password" => [
-                "rules" => "required",
-                "errors" => [
-                    "required" => "Harap Masukkan Parameter Password"
-                ]
-            ],
         ])) {
 
             $data = $this->lib->Error($this->validasi->getErrors());
@@ -88,14 +83,13 @@ class Api extends BaseController
         }
 
         $data = [
-            "nama_user" => $this->request->getVar("nama_user"),
-            "email" => $this->request->getVar("email"),
-            "wa" => $this->request->getVar("wa"),
-            "password" => md5($this->request->getVar("password"))
+            "nama_kontak" => $this->request->getVar("nama_kontak"),
+            "email_kontak" => $this->request->getVar("email"),
+            "wa_kontak" => $this->request->getVar("wa")
         ];
 
         // inserting data 
-        $insert = $this->tb_user->insert($data, true);
+        $insert = $this->tb_kontak->insert($data, true);
 
         if (is_numeric($insert)) {
             return $this->respond($this->lib->success("Data Anda Berhasil Ditambahkan"));
@@ -105,9 +99,9 @@ class Api extends BaseController
     // =============== delete(Delete) ======
     public function delete($id)
     {
-        $cek = $this->tb_user->cek_id($id);
+        $cek = $this->tb_kontak->cek_id($id);
         if (!empty($cek)) {
-            $delete = $this->tb_user->where("id_user", $id)->delete();
+            $delete = $this->tb_kontak->where("id_kontak", $id)->delete();
 
             if ($delete) {
                 return $this->respond($this->lib->success("Data Berhasil Dihapus"));
@@ -133,7 +127,7 @@ class Api extends BaseController
                     "required" => "Parameter tidak lengkap"
                 ]
             ],
-            "nama_user" => [
+            "nama_kontak" => [
                 "rules" => "required",
                 "errors" => [
                     "required" => "Parameter tidak lengkap"
@@ -164,17 +158,17 @@ class Api extends BaseController
         $id = $dataUpdate['id'];
 
         // cek apakah data dengan id tersebut sudah terdaftar
-        $data_exists = $this->tb_user->where("id_user", $id)->first();
+        $data_exists = $this->tb_kontak->where("id_kontak", $id)->first();
 
         if (!empty($data_exists)) {
             $data = [
-                "nama_user" => $dataUpdate['nama_user'],
+                "nama_kontak" => $dataUpdate['nama_kontak'],
                 "email" => $dataUpdate['email'],
                 "wa" => $dataUpdate['wa']
             ];
 
 
-            $update = $this->tb_user->where("id_user", $id)->set($data)->update();
+            $update = $this->tb_kontak->where("id_kontak", $id)->set($data)->update();
             if ($update) {
                 return $this->respond($this->lib->success("Data dengan id $id Berhasil Diubah"));
             }

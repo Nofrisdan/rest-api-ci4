@@ -31,11 +31,6 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-
-
-// default settings
-// $routes->get('/', 'Api\Contact::index');
-
 // modified rest api 
 
 $routes->resource("Api");
@@ -44,6 +39,8 @@ $routes->get("/rest-api/find/(:num)", "Api::find/$1");
 $routes->post("/rest-api/create", "Api::create");
 $routes->delete("/rest-api/delete/(:num)", "Api::delete/$1");
 $routes->put("/rest-api/update", "Api::update");
+$routes->post("/auth/rest-api/login", "Otentikasi::login");
+$routes->post("/auth/rest-api/registrasi", "Otentikasi::registrasi");
 
 
 

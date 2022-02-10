@@ -7,7 +7,7 @@ use App\Models\Tb_user;
 use Firebase\JWT\JWT;
 
 
-// cek jwt
+// get jwt
 function getJWT($header_auth)
 {
     if (is_null($header_auth)) {
@@ -33,6 +33,8 @@ function validateJWT($encodeJWT)
 
     if ($tb_user->cekEmail($decodedJWT->email) !== false) {
         return $tb_akses->getIdUser($tb_user->cekEmail($decodedJWT->email));
+    } else {
+        throw new Exception("Email Tidak Terdaftar");
     }
 }
 
