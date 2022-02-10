@@ -41,6 +41,7 @@ $routes->delete("/rest-api/delete/(:num)", "Api::delete/$1");
 $routes->put("/rest-api/update", "Api::update");
 $routes->post("/auth/rest-api/login", "Otentikasi::login");
 $routes->post("/auth/rest-api/registrasi", "Otentikasi::registrasi");
+$routes->get("/auth/rest-api/tes", "Otentikasi::tes");
 
 
 

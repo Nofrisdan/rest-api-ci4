@@ -67,11 +67,11 @@ class Filters extends BaseConfig
      * @var array
      */
     public $filters = [
-        // 'otentikasi' => [
-        //     'before' => [
-        //         "rest-api/*",
-        //         "rest-api"
-        //     ]
-        // ]
+        'otentikasi' => [
+            'before' => [
+                "rest-api/*",
+                "rest-api"
+            ]
+        ]
     ];
 }

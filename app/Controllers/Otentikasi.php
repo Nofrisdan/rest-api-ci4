@@ -90,6 +90,29 @@ class Otentikasi extends BaseController
         $email = $this->request->getVar("email");
         $pass = $this->request->getVar("password");
 
+        // validasi
+        if (!$this->validate([
+            "email" => [
+                "rules" => "required|valid_email",
+                "errors" => [
+                    "required" => "Email Tidak Boleh Kosong",
+                    "valid_email" => "Email Tidak Valid"
+                ]
+            ],
+            "password" => [
+                "rules" => "required",
+                "errors" => [
+                    "required" => "Password Tidak Boleh Kosong",
+
+                ]
+            ],
+
+        ])) {
+
+            return $this->fail(Services::validation()->getErrors());
+        }
+
+
         // get data 
         $user = $this->tb_user->select("id_user,email,password")
             ->where("email", $email)
@@ -127,5 +150,29 @@ class Otentikasi extends BaseController
             // error
             return $this->failNotFound("Akun Anda Tidak Terdaftar");
         }
+    }
+
+
+    // testing
+    public function tes()
+    {
+        helper("jwt");
+
+        // encode
+        $email = "anton@gmail.com";
+
+        // $data = [
+        //     "token" => createJWT($email)
+        // ];
+
+        // return $this->respond($data);
+
+        $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFudG9uQGdtYWlsLmNvbSIsImlhdCI6MTY0NDQ4MzMwNSwiZXhwIjoxNjQ0NDg2OTA1fQ.M4iagmza5tVnHQFSl1AyEmq6w5kya_0YD5c5DCQDxCU";
+
+        $data = [
+            "hasil" => validateJWT($token)
+        ];
+
+        return $this->respond($data);
     }
 }

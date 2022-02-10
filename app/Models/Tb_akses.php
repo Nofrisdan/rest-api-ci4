@@ -8,7 +8,7 @@ use Exception;
 class Tb_akses extends Model
 {
 
-    protected $table = "tb_akes";
+    protected $table = "tb_akses";
     protected $allowedFields = [
         'token',
         'ip_addres',

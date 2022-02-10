@@ -5,7 +5,7 @@ use App\Models\Tb_akses;
 use App\Models\Tb_user;
 
 use Firebase\JWT\JWT;
-
+use Firebase\JWT\Key;
 
 // get jwt
 function getJWT($header_auth)
@@ -23,7 +23,7 @@ function validateJWT($encodeJWT)
 {
     // ambil jwt key dari .env
     $key = getenv("JWT_SECRET_KEY");
-    $decodedJWT = JWT::decode($encodeJWT, $key, ['HS256']);
+    $decodedJWT = JWT::decode($encodeJWT, new Key($key, 'HS256'));
 
     // return $decodedJWT;
 
@@ -54,7 +54,8 @@ function createJWT($email)
     ];
 
     // membuat jwt
-    $jwt = JWT::encode($payload, $key, ['HS256']); // ['H256'] merupakan algoritma code jwt
+    // $jwt = JWT::encode($payload, $key); // ['H256'] merupakan algoritma code jwt ///ERROR
 
+    $jwt = JWT::encode($payload, $key, 'HS256');
     return $jwt;
 }

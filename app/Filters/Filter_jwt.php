@@ -25,7 +25,15 @@ class Filter_jwt implements FilterInterface
             // load helper yang kita buat
             helper('jwt');
             $encodeJWT = getJWT($header);
+
+            $data = [
+                "filter" => 200,
+                "header" => $header,
+                "encode" => $encodeJWT
+            ];
             validateJWT($encodeJWT);
+            // return $this->respond($data);
+
             return $request;
         } catch (Exception $e) {
 
