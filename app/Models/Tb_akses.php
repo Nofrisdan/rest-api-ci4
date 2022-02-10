@@ -9,7 +9,11 @@ class Tb_akses extends Model
 {
 
     protected $table = "tb_akes";
-    protected $allowedFields = ['token', 'ip_addres', 'id_user'];
+    protected $allowedFields = [
+        'token',
+        'ip_addres',
+        'id_user'
+    ];
     // protected $useTimestamps = true;
 
     public function getData($token = false)
@@ -33,5 +37,20 @@ class Tb_akses extends Model
             throw new Exception("Data Tidak Tersedia");
         }
         return $data;
+    }
+
+    // ceking
+    public function cek_id_user($id_user)
+    {
+        $data = $this
+            ->select("id_user,token")
+            ->where("id_user", $id_user)
+            ->first();
+
+        if (!empty($data)) {
+            return $data;
+        } else {
+            return true;
+        }
     }
 }
